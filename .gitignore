@@ -1,0 +1,6 @@
+.cache
+.env
+.next
+.idea
+node_modules
+dist
