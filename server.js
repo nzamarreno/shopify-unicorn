@@ -7,7 +7,7 @@ const { verifyRequest } = require('@shopify/koa-shopify-auth');
 const session = require('koa-session');
 const static = require('koa-static');
 const router = require('@koa/router')()
-const controllers = require('./controllers/airtableController')
+const controllers = require('./server/controllers/airtableController')
 const koaBody = require('koa-body');
 const cors = require('@koa/cors');
 dotenv.config();
@@ -42,7 +42,7 @@ app.prepare().then(() => {
     initController(server)
 
     // Set public folder for distribute JS File
-    server.use(static('./public'))
+    server.use(static('./server/public'))
 
     // Init the lecture of POST parameters
     server.use(koaBody())

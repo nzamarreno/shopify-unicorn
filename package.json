@@ -11,8 +11,11 @@
     "parcel": "parcel widget/index.html",
     "build:widget": "parcel build --no-source-maps widget/index.html",
     "clean": "rm -rf dist",
-    "prod:widget": "yarn clean && yarn build:widget && find ./dist -name '*.js' -exec mv '{}' public/unicorn-widget.js \\;"
+    "prod:widget": "yarn clean && yarn build:widget && find ./dist -name '*.js' -exec mv '{}' ./server/public/unicorn-widget.js \\; && find ./dist -name '*.css' -exec mv '{}' ./server/public/unicorn-style.css \\;"
   },
+  "browserslist": [
+    "since 2018-06"
+  ],
   "dependencies": {
     "@koa/cors": "^3.1.0",
     "@koa/router": "^9.4.0",
@@ -29,6 +32,7 @@
     "next": "^9.5.5",
     "parcel-bundler": "^1.12.4",
     "react": "^16.14.0",
-    "react-dom": "^16.14.0"
+    "react-dom": "^16.14.0",
+    "regenerator-runtime": "^0.13.7"
   }
 }

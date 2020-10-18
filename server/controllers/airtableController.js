@@ -35,7 +35,7 @@ async function GetConfigurationController(ctx) {
     console.log('GetConfigurationController', uuid)
     ctx.body = {
         "status": 200,
-        "json": entities
+        "json": RepositoryHelpers.findFirstOrDefault(entities)
     }
 }
 

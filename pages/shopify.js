@@ -52,7 +52,7 @@ const Index = () => {
                 const response = await fetch(`https://shopyfy.ngrok.io/configuration?uuid=${shop}`)
                 const result = await response.json()
 
-                const shopWidget = result.json[0]
+                const shopWidget = result.json
                 if (!shopWidget) return
 
                 setTitle(shopWidget.title)
