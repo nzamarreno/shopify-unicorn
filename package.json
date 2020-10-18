@@ -11,7 +11,7 @@
     "parcel": "parcel widget/index.html",
     "build:widget": "parcel build --no-source-maps widget/index.html",
     "clean": "rm -rf dist",
-    "prod:widget": "yarn clean && yarn build:widget && find ./dist -name '*.js' -exec mv '{}' public/widget.js \\;"
+    "prod:widget": "yarn clean && yarn build:widget && find ./dist -name '*.js' -exec mv '{}' public/unicorn-widget.js \\;"
   },
   "dependencies": {
     "@koa/cors": "^3.1.0",

@@ -2,12 +2,19 @@ import * as React from "react"
 import { Stack, Card, Button, TextField, Form, FormLayout, Layout, Page } from '@shopify/polaris'
 import { useRouter } from 'next/router'
 
-const getFullName = (user) => `${user.firstName} ${user.lastName}`
+const isEmpty = (stuff) => stuff === undefined || stuff === ''
+const getFullName = (user) => {
+    const nameConcat = []
+    nameConcat.push(!isEmpty(user.firstName) ? user.firstName : 'Captain')
+    nameConcat.push(!isEmpty(user.lastName) ? user.lastName : 'Person')
+
+    return nameConcat.join(' ')
+}
 
 const Index = () => {
     const router = useRouter()
     const { shop } = router.query
-    
+
     // Handle Title
     const [title, setTitle] = React.useState('')
     const handleOnChangeTitle = (value) => {
@@ -21,8 +28,19 @@ const Index = () => {
     }
 
     // Handle Submit Behavior
-    const handleSubmit = (typeField) => {
-        console.log(typeField)
+    const handleSubmit = async () => {
+        try {
+            await fetch('https://shopyfy.ngrok.io/configuration', {
+                method: 'PUT',
+                body: JSON.stringify({
+                    uuid: shop,
+                    title,
+                    description
+                })
+            })
+        } catch(e) {
+            console.log(e)
+        }
     }
 
     // Handle Subscription
@@ -35,7 +53,6 @@ const Index = () => {
                 const result = await response.json()
 
                 const shopWidget = result.json[0]
-                console.log(shopWidget)
                 if (!shopWidget) return
 
                 setTitle(shopWidget.title)
@@ -73,7 +90,7 @@ const Index = () => {
                     description="Configure your custom label which appear in your widget"
                 >
                     <Card sectioned>
-                        <Form onSubmit={() => handleSubmit('title')}>
+                        <Form onSubmit={handleSubmit}>
                             <FormLayout>
                                 <TextField
                                     value={title}
@@ -90,7 +107,7 @@ const Index = () => {
                         </Form>
                     </Card>
                     <Card sectioned>
-                        <Form onSubmit={() => handleSubmit('description')}>
+                        <Form onSubmit={handleSubmit}>
                             <FormLayout>
                                 <TextField
                                     value={description}

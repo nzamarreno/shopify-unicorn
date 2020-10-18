@@ -15,13 +15,31 @@ function UnicornWidget(idElement) {
 
     const App = () => {
         const [email, setEmail] = React.useState('')
+        const [configuration, setConfiguration] = React.useState([])
 
         const handleOnChange = (value) => {
             setEmail(value)
         }
 
+        React.useEffect(() => {
+            const fetchConfiguration = async () => {
+                try {
+                    const response = await fetch(`https://shopyfy.ngrok.io/configuration?uuid=${shop}`)
+                    const result = await response.json()
+    
+                    const shopSubscriptions = result.json
+                    if (!shopSubscriptions) return
+    
+                    setConfiguration(shopSubscriptions)
+                } catch (e) {
+                    console.log(e)
+                }
+            }
+
+            fetchConfiguration()
+        })
+
         const handleOnSubmit = () => {
-            console.log("handleSubmit")
             try {
                 fetch('https://shopyfy.ngrok.io/post', {
                     method: "POST",
@@ -36,6 +54,8 @@ function UnicornWidget(idElement) {
 
         }
 
+        const [title, description] = configuration
+        
         return (
             <Card sectioned>
                 <Form onSubmit={handleOnSubmit}>
