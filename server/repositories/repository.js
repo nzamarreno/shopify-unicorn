@@ -1,5 +1,5 @@
-const dotenv = require('dotenv')
 const Airtable = require('airtable')
+const dotenv = require('dotenv')
 dotenv.config()
 
 const { AIRTABLE_DATABASE_ID, AIRTABLE_API_KEY } = process.env;

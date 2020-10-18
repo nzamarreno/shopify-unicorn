@@ -49,7 +49,7 @@ function UnicornWidget(idElement) {
 
                     const shopConfiguration = result.json
                     if (!shopConfiguration) return
-                    
+
                     const {title, description} = shopConfiguration
                     setConfiguration([title, description])
                 } catch (e) {
@@ -69,10 +69,11 @@ function UnicornWidget(idElement) {
                         email: email
                     })
                 })
+
+                setEmail('')
             } catch (e) {
-
+                console.log(e)
             }
-
         }
 
         const [title, description] = configuration

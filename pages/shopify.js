@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Stack, Card, Button, TextField, Form, FormLayout, Layout, Page } from '@shopify/polaris'
+import { Stack, Card, Button, TextField, Form, FormLayout, Layout, Page, TextStyle } from '@shopify/polaris'
 import { useRouter } from 'next/router'
 
 const isEmpty = (stuff) => stuff === undefined || stuff === ''
@@ -14,6 +14,7 @@ const getFullName = (user) => {
 const Index = () => {
     const router = useRouter()
     const { shop } = router.query
+    const baseUrlApp = process.env.NEXT_PUBLIC_API_URL
 
     // Handle Title
     const [title, setTitle] = React.useState('')
@@ -30,7 +31,7 @@ const Index = () => {
     // Handle Submit Behavior
     const handleSubmit = async () => {
         try {
-            await fetch('https://shopyfy.ngrok.io/configuration', {
+            await fetch(`${baseUrlApp}/configuration`, {
                 method: 'PUT',
                 body: JSON.stringify({
                     uuid: shop,
@@ -38,7 +39,7 @@ const Index = () => {
                     description
                 })
             })
-        } catch(e) {
+        } catch (e) {
             console.log(e)
         }
     }
@@ -49,7 +50,7 @@ const Index = () => {
     React.useEffect(() => {
         const fetchConfiguration = async () => {
             try {
-                const response = await fetch(`https://shopyfy.ngrok.io/configuration?uuid=${shop}`)
+                const response = await fetch(`${baseUrlApp}/configuration?uuid=${shop}`)
                 const result = await response.json()
 
                 const shopWidget = result.json
@@ -64,7 +65,7 @@ const Index = () => {
 
         const fetchSubscription = async () => {
             try {
-                const response = await fetch(`https://shopyfy.ngrok.io/subscription?uuid=${shop}`)
+                const response = await fetch(`${baseUrlApp}/subscription?uuid=${shop}`)
                 const result = await response.json()
 
                 const shopSubscriptions = result.json
@@ -85,6 +86,22 @@ const Index = () => {
     return (
         <Page fullWidth title="Configuration">
             <Layout>
+                <Layout.AnnotatedSection
+                    title="Inject your Unicorn"
+                    description="You can inject your widget in your template with this snippet. If you need help, don't scream, just read the documentation. I hope you will like Unicorn!"
+                >
+                    <Card sectioned title="Snippet Code">
+                        <TextStyle variation="code">
+                            {`
+                            <div id="unicorn-widget"></div>
+                            <script type="text/javascript" src="${baseUrlApp}/unicorn-widget.js"></script>
+                            <script type="text/javascript">
+                                UnicornWidget('unicorn-widget')
+                            </script>
+                            `}
+                        </TextStyle>
+                    </Card>
+                </Layout.AnnotatedSection>
                 <Layout.AnnotatedSection
                     title="Widget Configuration"
                     description="Configure your custom label which appear in your widget"
