@@ -24,7 +24,7 @@ function UnicornWidget(idElement) {
         styleSheet.type = 'text/css'
         styleSheet.rel = 'stylesheet'
         document.getElementsByTagName("head")[0].appendChild(styleSheet)
-        styleSheet.href = 'https://shopyfy.ngrok.io/unicorn-style.css'
+        styleSheet.href = `${process.env.NEXT_PUBLIC_API_URL}/unicorn-style.css`
     }
 
     // Init
@@ -44,7 +44,7 @@ function UnicornWidget(idElement) {
         React.useEffect(() => {
             const fetchConfiguration = async () => {
                 try {
-                    const response = await fetch(`https://shopyfy.ngrok.io/configuration?uuid=${shop}`)
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/configuration?uuid=${shop}`)
                     const result = await response.json()
 
                     const shopConfiguration = result.json
@@ -62,7 +62,7 @@ function UnicornWidget(idElement) {
 
         const handleOnSubmit = () => {
             try {
-                fetch('https://shopyfy.ngrok.io/post', {
+                fetch(`${process.env.NEXT_PUBLIC_API_URL}/post`, {
                     method: "POST",
                     body: JSON.stringify({
                         uuid: shop,
