@@ -10,7 +10,10 @@ const router = require('@koa/router')()
 const controllers = require('./server/controllers/airtableController')
 const koaBody = require('koa-body');
 const cors = require('@koa/cors');
+const addScriptTag = require("./server/controllers/addScriptTag");
 dotenv.config();
+const { default: graphQLProxy } = require('@shopify/koa-shopify-graphql-proxy');
+const { ApiVersion } = require('@shopify/koa-shopify-graphql-proxy');
 
 // Configurations Stuffs
 const port = parseInt(process.env.PORT, 10) || 3000;
@@ -52,16 +55,16 @@ app.prepare().then(() => {
     server.keys = [SHOPIFY_API_SECRET_KEY];
 
     // Redirect on Shopify with authorization
+    server.use(graphQLProxy({version: ApiVersion.July20}))
     server.use(
         createShopifyAuth({
-            prefix: 'shopify',
             apiKey: SHOPIFY_API_KEY,
             secret: SHOPIFY_API_SECRET_KEY,
-            scopes: ['read_products'],
-            afterAuth(ctx) {
+            scopes: ['read_products', 'read_script_tags', 'write_script_tags'],
+            async afterAuth(ctx) {
                 const { shop, accessToken } = ctx.session;
                 console.log('afterAuth', shop)
-                ctx.redirect('/shopify');
+                await addScriptTag(ctx, accessToken, shop)
             },
         }),
     );
