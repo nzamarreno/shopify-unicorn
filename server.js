@@ -24,10 +24,10 @@ const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY } = process.env;
 
 
 function initController(server) {
-    router.post('/post', koaBody(), controllers.PostController)
-    router.get('/configuration', controllers.GetConfigurationController)
-    router.put('/configuration', koaBody(), controllers.PutConfigurationController)
-    router.get('/subscription', controllers.GetSubscriptionController)
+    router.post('/api/post', koaBody(), controllers.PostController)
+    router.get('/api/configuration', controllers.GetConfigurationController)
+    router.put('/api/configuration', koaBody(), controllers.PutConfigurationController)
+    router.get('/api/subscription', controllers.GetSubscriptionController)
 
     server.use(router.routes())
 }

@@ -1,8 +1,10 @@
+const { NEXT_PUBLIC_API_URL } = process.env;
+
 const addScriptTag = async (ctx, accessToken, shop) => {
     const query = {
         "script_tag": {
             "event": "onload",
-            "src": "https://shopyfy.ngrok.io/unicorn-widget.js"
+            "src": `${NEXT_PUBLIC_API_URL}/unicorn-widget.js`
         }
     }
 
@@ -16,11 +18,9 @@ const addScriptTag = async (ctx, accessToken, shop) => {
     })
 
     const responseJson = await response.json();
-    // https://shopyfy.ngrok.io/auth?shop=ism-staging.myshopify.com
     console.log(responseJson, shop)
-    // const confirmationUrl = responseJson.data.appSubscriptionCreate.confirmationUrl
-    // return ctx.redirect(confirmationUrl)
-    return ctx.redirect('/shopify')
+    const confirmationUrl = responseJson.data.appSubscriptionCreate.confirmationUrl
+    return ctx.redirect(confirmationUrl)
 };
 
 module.exports = addScriptTag;

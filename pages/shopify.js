@@ -31,7 +31,7 @@ const Index = () => {
     // Handle Submit Behavior
     const handleSubmit = async () => {
         try {
-            await fetch(`${baseUrlApp}/configuration`, {
+            await fetch(`${baseUrlApp}/api/configuration`, {
                 method: 'PUT',
                 body: JSON.stringify({
                     uuid: shop,
@@ -50,7 +50,7 @@ const Index = () => {
     React.useEffect(() => {
         const fetchConfiguration = async () => {
             try {
-                const response = await fetch(`${baseUrlApp}/configuration?uuid=${shop}`)
+                const response = await fetch(`${baseUrlApp}/api/configuration?uuid=${shop}`)
                 const result = await response.json()
 
                 const shopWidget = result.json
@@ -65,7 +65,7 @@ const Index = () => {
 
         const fetchSubscription = async () => {
             try {
-                const response = await fetch(`${baseUrlApp}/subscription?uuid=${shop}`)
+                const response = await fetch(`${baseUrlApp}/api/subscription?uuid=${shop}`)
                 const result = await response.json()
 
                 const shopSubscriptions = result.json
