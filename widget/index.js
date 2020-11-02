@@ -3,20 +3,18 @@ import * as React from 'react'
 import { Stack, Card, Button, TextField, Form, FormLayout, Heading, Subheading } from '@shopify/polaris'
 import { AppProvider } from '@shopify/polaris'
 import '@shopify/polaris/dist/styles.css'
+import './style.css'
 import translations from '@shopify/polaris/locales/en.json'
 import 'regenerator-runtime/runtime'
 
-function UnicornWidget(idElement) {
+(function UnicornWidget() {
     const shop = window.location.host
-    const DEFAULT_CLASS_ID = '#unicorn-widget'
-
-    const idWrapper = idElement ? `#${idElement}` : DEFAULT_CLASS_ID
+    const DEFAULT_CLASS_ID = 'unicorn-widget'
 
     const injectUnicorn = () => {
-        let idWrapper = DEFAULT_CLASS_ID
         const element = document.createElement('div')
-        idWrapper = idElement ? `#${idElement}` : DEFAULT_CLASS_ID
-        document.querySelector(idWrapper).appendChild(element)
+        element.setAttribute('id', DEFAULT_CLASS_ID)
+        document.body.appendChild(element)
     }
 
     const injectStyles = () => {
@@ -28,7 +26,7 @@ function UnicornWidget(idElement) {
     }
 
     // Init
-    // injectUnicorn()
+    injectUnicorn()
     injectStyles()
 
     const Error = () => <div>Sorry, Something is wrong!</div>
@@ -109,8 +107,6 @@ function UnicornWidget(idElement) {
         ) : (
                 <Error />
             ),
-        document.querySelector(idWrapper)
+        document.querySelector(`#${DEFAULT_CLASS_ID}`)
     )
-}
-
-window.UnicornWidget = UnicornWidget
+})()

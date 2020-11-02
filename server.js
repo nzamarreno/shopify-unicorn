@@ -14,6 +14,7 @@ const addScriptTag = require("./server/controllers/addScriptTag");
 dotenv.config();
 const { default: graphQLProxy } = require('@shopify/koa-shopify-graphql-proxy');
 const { ApiVersion } = require('@shopify/koa-shopify-graphql-proxy');
+const addAsset = require('./server/controllers/addAsset');
 
 // Configurations Stuffs
 const port = parseInt(process.env.PORT, 10) || 3000;
@@ -60,11 +61,11 @@ app.prepare().then(() => {
         createShopifyAuth({
             apiKey: SHOPIFY_API_KEY,
             secret: SHOPIFY_API_SECRET_KEY,
-            scopes: ['read_products', 'read_script_tags', 'write_script_tags'],
+            scopes: ['read_script_tags', 'write_script_tags', 'read_themes', 'write_themes'],
             async afterAuth(ctx) {
                 const { shop, accessToken } = ctx.session;
-                console.log('afterAuth', shop)
-                await addScriptTag(ctx, accessToken, shop)
+                const { publicUrl } = await addAsset(ctx, accessToken, shop)
+                await addScriptTag(ctx, accessToken, shop, publicUrl)
             },
         }),
     );

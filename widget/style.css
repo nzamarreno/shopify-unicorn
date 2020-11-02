@@ -1,0 +1,13 @@
+#unicorn-widget {
+    width: 300px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    cursor: pointer;
+    transform: translateY(126px);
+    transition: transform .5s;
+}
+
+#unicorn-widget:hover {
+    transform: translateY(0)
+}

@@ -1,14 +1,14 @@
 const { NEXT_PUBLIC_API_URL } = process.env;
 
-const addScriptTag = async (ctx, accessToken, shop) => {
+const addScriptTag = async (ctx, accessToken, shop, publicUrlAsset) => {
     const query = {
         "script_tag": {
             "event": "onload",
-            "src": `${NEXT_PUBLIC_API_URL}/unicorn-widget.js`
+            "src": publicUrlAsset
         }
     }
 
-    const response = await fetch(`https://${shop}/admin/api/2020-10/script_tags.json`, {
+    await fetch(`https://${shop}/admin/api/2020-07/script_tags.json`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -17,10 +17,7 @@ const addScriptTag = async (ctx, accessToken, shop) => {
         body: JSON.stringify(query)
     })
 
-    const responseJson = await response.json();
-    console.log(responseJson, shop)
-    const confirmationUrl = responseJson.data.appSubscriptionCreate.confirmationUrl
-    return ctx.redirect(confirmationUrl)
+    return ctx.redirect("/shopify")
 };
 
 module.exports = addScriptTag;

@@ -63,7 +63,7 @@ async function PutConfigurationController(ctx) {
     if (!ctx.request.body) return
     const { uuid, title, description } = JSON.parse(ctx.request.body)
     const entities = await Repositories.find(Repositories.airtableTables.Configuration, 'uuid', uuid)
-    console.log(entities)
+
     if (entities && entities.length === 0) {
         NotFound(ctx)
         return
